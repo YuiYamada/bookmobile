@@ -3,6 +3,7 @@
 /// <reference lib="dom.iterable" />
 /// <reference lib="dom.asynciterable" />
 /// <reference lib="deno.ns" />
+/** @jsxImportSource preact */
 
 import "$std/dotenv/load.ts";
 
