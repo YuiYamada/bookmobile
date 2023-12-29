@@ -1,25 +1,33 @@
-import { useSignal } from "@preact/signals";
-import Counter from "../islands/Counter.tsx";
+import { Head } from "$fresh/runtime.ts";
 
-export default function Home() {
-  const count = useSignal(3);
+export default function index() {
   return (
-    <div class="px-4 py-8 mx-auto bg-[#86efac]">
-      <div class="max-w-screen-md mx-auto flex flex-col items-center justify-center">
-        <img
-          class="my-6"
-          src="/logo.svg"
-          width="128"
-          height="128"
-          alt="the Fresh logo: a sliced lemon dripping with juice"
+    <div>
+      <Head>
+        <title>bookmobile</title>
+        <meta
+          name="description"
+          content="Rent and return books anytime, anywhere."
         />
-        <h1 class="text-4xl font-bold">Welcome to Fresh</h1>
-        <p class="my-4">
-          Try updating this message in the
-          <code class="mx-2">./routes/index.tsx</code> file, and refresh.
-        </p>
-        <Counter count={count} />
-      </div>
+      </Head>
+      <main>
+        <a
+          href="/loginPage"
+          class="flex justify-center items-center bg-white rounded-full h-18 border-2 border-gray-300 transition-colors"
+        >
+          <span class="text-xl font-bold text-gray-900 group-hover:underline group-focus:underline">
+            Log In
+          </span>
+        </a>
+        <a
+          href="/signUpPage"
+          class="flex justify-center items-center bg-white rounded-full h-18 border-2 border-gray-300 transition-colors"
+        >
+          <span class="text-xl font-bold text-gray-900 group-hover:underline group-focus:underline">
+            Sign Up
+          </span>
+        </a>
+      </main>
     </div>
   );
 }
