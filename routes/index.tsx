@@ -1,4 +1,5 @@
 import { Head } from "$fresh/runtime.ts";
+import Button from "../components/Button.tsx";
 
 export default function index() {
   return (
@@ -11,22 +12,8 @@ export default function index() {
         />
       </Head>
       <main>
-        <a
-          href="/loginPage"
-          class="flex justify-center items-center bg-white rounded-full h-18 border-2 border-gray-300 transition-colors"
-        >
-          <span class="text-xl font-bold text-gray-900 group-hover:underline group-focus:underline">
-            Log In
-          </span>
-        </a>
-        <a
-          href="/signUpPage"
-          class="flex justify-center items-center bg-white rounded-full h-18 border-2 border-gray-300 transition-colors"
-        >
-          <span class="text-xl font-bold text-gray-900 group-hover:underline group-focus:underline">
-            Sign Up
-          </span>
-        </a>
+        <Button path="/loginPage" name="Log In" />
+        <Button path="/signUpPage" name="Sign Up" />
       </main>
     </div>
   );
