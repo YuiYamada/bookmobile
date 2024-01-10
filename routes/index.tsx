@@ -6,7 +6,7 @@ export default function index() {
   return (
     <div>
       <Head>
-        <title>bookmobile</title>
+        <title>Bookmobile</title>
         <meta
           name="description"
           content="Rent and return books anytime, anywhere."
@@ -16,7 +16,7 @@ export default function index() {
         <div class="flex flex-col items-center justify-start mt-60">
           <IconBooks class="w-24 h-24" />
           <p class="text-xl font-bold text-gray-900 group-hover:underline group-focus:underline">
-            bookmobile
+            Bookmobile
           </p>
         </div>
         <Button path="/signUpPage" name="Sign Up" />

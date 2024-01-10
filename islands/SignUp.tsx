@@ -1,14 +1,12 @@
 const SignUp = () => {
   return (
-    <>
-      <div class="flex flex-col items-center justify-start md:(w-1/2) w-4/5">
-        <input
-          type="text"
-          placeholder="What's your name"
-          class="p-2 w-full border-2 border-yellow-300 rounded-md text-lg mt-4 text-center duration-300 focus:(outline-none border-yellow-400)"
-        />
-      </div>
-    </>
+    <div class="flex flex-col items-center justify-start my-8">
+      <input
+        type="text"
+        placeholder="Name"
+        class="p-2 w-4/5 border-2 border-gray-300 rounded-md text-lg mt-4 text-left duration-300 focus:(outline-none border-gray-400)"
+      />
+    </div>
   );
 };
 
