@@ -15,7 +15,7 @@ export default function index() {
       <main>
         <div class="flex flex-col items-center justify-start mt-60">
           <IconBooks class="w-24 h-24" />
-          <p class="text-xl font-bold text-gray-900 group-hover:underline group-focus:underline">
+          <p class="text-xl font-bold text-gray-900 ">
             Bookmobile
           </p>
         </div>
