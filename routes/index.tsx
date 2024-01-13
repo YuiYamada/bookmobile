@@ -1,32 +1,26 @@
 import { Head } from "$fresh/runtime.ts";
+import Button from "../components/Button.tsx";
+import IconBooks from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/books.tsx";
 
 export default function index() {
   return (
     <div>
       <Head>
-        <title>bookmobile</title>
+        <title>Bookmobile</title>
         <meta
           name="description"
           content="Rent and return books anytime, anywhere."
         />
       </Head>
       <main>
-        <a
-          href="/loginPage"
-          class="flex justify-center items-center bg-white rounded-full h-18 border-2 border-gray-300 transition-colors"
-        >
-          <span class="text-xl font-bold text-gray-900 group-hover:underline group-focus:underline">
-            Log In
-          </span>
-        </a>
-        <a
-          href="/signUpPage"
-          class="flex justify-center items-center bg-white rounded-full h-18 border-2 border-gray-300 transition-colors"
-        >
-          <span class="text-xl font-bold text-gray-900 group-hover:underline group-focus:underline">
-            Sign Up
-          </span>
-        </a>
+        <div class="flex flex-col items-center justify-start mt-60">
+          <IconBooks class="w-24 h-24" />
+          <p class="text-xl font-bold text-gray-900 ">
+            Bookmobile
+          </p>
+        </div>
+        <Button path="/signUpPage" name="Sign Up" />
+        <Button path="/loginPage" name="Log In" />
       </main>
     </div>
   );
