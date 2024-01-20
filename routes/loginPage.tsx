@@ -5,7 +5,6 @@ export default function loginPage() {
   return (
     <>
       <Login />
-      <Button path="/mainPage" name="Log In" />
     </>
   );
 }

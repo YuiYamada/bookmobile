@@ -1,15 +1,32 @@
 import { useEffect, useState } from "preact/hooks";
+import ErrorMessage from "../components/ErrorMessage.tsx";
 
 const SignUp = () => {
   const [name, setName] = useState("");
   const [signUpToggle, setSignUpToggle] = useState(false);
+  const [isInputNameError, setIsInputNameError] = useState(false);
+
   useEffect(() => {
-    const get = async () => {
-      const res = await fetch(`/api/denokv?name=${name}`);
-      console.log(await res.json());
+    const get = () => {
+      fetch(`/api/signUp?name=${name}`, {
+        method: "GET",
+        redirect: "follow",
+      }).then((res) => {
+        console.log(res);
+        console.log(res.url);
+        if (res.redirected) {
+          window.location.href = res.url;
+        } else {
+          setIsInputNameError(true);
+        }
+      });
     };
     name && get();
   }, [signUpToggle]);
+
+  useEffect(() => {
+    isInputNameError && console.log("再入力してね");
+  }, [isInputNameError]);
 
   return (
     <>
@@ -26,12 +43,17 @@ const SignUp = () => {
         <button
           onClick={() => {
             setSignUpToggle(!signUpToggle);
+            setIsInputNameError(false);
           }}
           class="flex justify-center items-center bg-white rounded-full w-2/3 h-16 mt-16 border-2 border-gray-300
 					text-xl font-bold text-gray-900"
         >
           Sign Up
         </button>
+        <ErrorMessage
+          hasError={isInputNameError}
+          errorMessage={"すでに登録済みです"}
+        />
       </div>
 
       <div class="flex flex-col items-center justify-start">
