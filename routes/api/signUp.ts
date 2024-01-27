@@ -2,7 +2,7 @@ import { Handlers } from "$fresh/server.ts";
 export const handler: Handlers = {
   async GET(req) {
     const urlSearchParams = new URLSearchParams(new URL(req.url).search);
-    const name = urlSearchParams.get("name");
+    const name = urlSearchParams.get("name") ?? "";
 
     const kv = await Deno.openKv();
     // kvStoreにユーザが存在する場合は再度入力させる
@@ -23,10 +23,15 @@ export const handler: Handlers = {
       });
     } else {
       await kv.set(["users", name], []);
-      return new Response("", {
-        status: 302,
-        headers: { location: "/mainPage" },
-      });
+
+      sessionStorage.setItem("name", name);
+
+      const url = new URL(req.url);
+      url.href = url.origin;
+      url.pathname = "/mainPage";
+      console.log(url);
+
+      return Response.redirect(url, 302);
     }
   },
 };

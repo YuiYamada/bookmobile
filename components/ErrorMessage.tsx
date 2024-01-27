@@ -8,7 +8,7 @@ export default function ErrorMessage(
 ) {
   console.log(hasError);
 
-  return hasError && (
-    <p class="text-xs mt-4 font-bold text-red-500 ">{errorMessage}</p>
-  );
+  return hasError
+    ? <p class="text-xs mt-4 font-bold text-red-500 ">{errorMessage}</p>
+    : <></>;
 }
