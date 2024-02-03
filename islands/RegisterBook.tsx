@@ -1,12 +1,13 @@
 import IconSearch from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/search.tsx";
-import { useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 const RegisterBook = () => {
   const [ISBNcode, setISBNcode] = useState("");
-  const handleKeyPress = (e: KeyboardEvent) => {
-    if (e.key === "Enter") {
-      console.log(ISBNcode);
-    }
-  };
+  const [enterCodeToggle, setEnterCodeToggl] = useState(false);
+
+  useEffect(() => {
+    console.log(ISBNcode);
+  }, [enterCodeToggle]);
+
   return (
     <>
       <div class="flex justify-center">
@@ -23,7 +24,12 @@ const RegisterBook = () => {
             type="text"
             placeholder=" ISBN code"
             onChange={(e) => setISBNcode((e.target as HTMLInputElement).value)}
-            onKeyPress={(e) => handleKeyPress(e)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                setISBNcode((e.target as HTMLInputElement).value);
+                setEnterCodeToggl(!enterCodeToggle);
+              }
+            }}
             class="p-2 w-2/3 border-none text-lg text-left outline-none"
           />
         </div>
