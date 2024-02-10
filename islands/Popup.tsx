@@ -58,7 +58,7 @@ export const Popup = (props: Props) => {
               </div>
               <div class="w-1/2">
                 <p class="h-1/4 ml-2 mr-4 text-xl font-bold text-gray-900">
-                  {item && item.volumeInfo.title.substring(0, 15)}
+                  {item && item.volumeInfo.title.substring(0, 13)}
                 </p>
                 <p class="ml-2 mr-4 text-sm font-light text-gray-900">
                   {item?.volumeInfo?.description &&

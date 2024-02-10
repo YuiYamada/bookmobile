@@ -4,6 +4,7 @@ import { useEffect, useState } from "preact/hooks";
 import { GoogleBooksApiResponse, Item } from "../type.ts";
 import { Popup } from "./Popup.tsx";
 import ErrorMessage from "../components/ErrorMessage.tsx";
+import Scan from "./Scan.tsx";
 
 const RegisterBook = () => {
   const [ISBNcode, setISBNcode] = useState("");
@@ -11,6 +12,9 @@ const RegisterBook = () => {
   const [item, setItem] = useState<Item>();
   const [popupFlag, setPopupFlag] = useState<boolean>(false);
   const [notFindBook, setNotFindBook] = useState<boolean>(false);
+  const [isScan, setIsScan] = useState<boolean>(false);
+
+  console.log(ISBNcode);
 
   useEffect(() => {
     const fetchBookData = async () => {
@@ -42,38 +46,67 @@ const RegisterBook = () => {
 
   return (
     <>
-      <div class="flex justify-center">
-        <div class="flex border-2 border-gray-300 rounded-md ">
-          <button
-            onClick={() => {
-              console.log(ISBNcode);
-              setEnterCodeToggl(!enterCodeToggle);
-            }}
-            class="ml-2"
-          >
-            <IconSearch class="w-6 h-6" />
-          </button>
-          <input
-            type="text"
-            placeholder=" ISBN code"
-            onChange={(e) => setISBNcode((e.target as HTMLInputElement).value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                setISBNcode((e.target as HTMLInputElement).value);
-                setEnterCodeToggl(!enterCodeToggle);
-              }
-            }}
-            class="p-2 w-2/3 border-none text-lg text-left outline-none"
+      {isScan
+        ? (
+          <Scan
+            ISBNcode={ISBNcode}
+            setIsScan={setIsScan}
+            setISBNcode={setISBNcode}
           />
-        </div>
-      </div>
-      <ErrorMessage
-        hasError={notFindBook}
-        errorMessage={"本が見つかりませんでした"}
-      />
-      <section className="h-[2000px] w-full">
-        <Popup viewFlag={popupFlag} setViewFlag={setPopupFlag} item={item} />
-      </section>
+        )
+        : (
+          <>
+            <div class="flex flex-col items-center w-full">
+              <button
+                onClick={() => {
+                  setIsScan(true);
+                }}
+                class="flex justify-center items-center bg-white rounded-full w-2/3 h-16 my-40 m-8 border-2 border-gray-300
+					text-xl font-bold text-gray-900"
+              >
+                Scan
+              </button>
+            </div>
+            <div class="flex justify-center">
+              <div class="flex border-2 mt-12 border-gray-300 rounded-md ">
+                <button
+                  onClick={() => {
+                    console.log(ISBNcode);
+                    setEnterCodeToggl(!enterCodeToggle);
+                  }}
+                  class="ml-2"
+                >
+                  <IconSearch class="w-6 h-6" />
+                </button>
+                <input
+                  type="text"
+                  placeholder=" ISBN code"
+                  value={ISBNcode}
+                  onChange={(e) =>
+                    setISBNcode((e.target as HTMLInputElement).value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      setISBNcode((e.target as HTMLInputElement).value);
+                      setEnterCodeToggl(!enterCodeToggle);
+                    }
+                  }}
+                  class="p-2 w-2/3 border-none text-lg text-left outline-none"
+                />
+              </div>
+            </div>
+            <ErrorMessage
+              hasError={notFindBook}
+              errorMessage={"本が見つかりませんでした"}
+            />
+            <section className="h-full w-full">
+              <Popup
+                viewFlag={popupFlag}
+                setViewFlag={setPopupFlag}
+                item={item}
+              />
+            </section>
+          </>
+        )}
     </>
   );
 };

@@ -6,7 +6,7 @@ const Main = () => {
   return (
     <>
       <p>{selectTab}</p>
-      <div class="flex flex-col items-center justify-start my-40">
+      <div class="flex flex-col items-center justify-start">
         {selectTab === "Register" && <RegisterBook />}
       </div>
       <div class="absolute inset-x-0 bottom-0">
