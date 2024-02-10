@@ -1,29 +1,44 @@
 import IconSearch from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/search.tsx";
 import { GOOGLE_BOOKS_API_PATH } from "../constants.ts";
 import { useEffect, useState } from "preact/hooks";
-import { GoogleBooksApiresponse, Item } from "../type.ts";
+import { GoogleBooksApiResponse, Item } from "../type.ts";
+import { Popup } from "./Popup.tsx";
+import ErrorMessage from "../components/ErrorMessage.tsx";
+
 const RegisterBook = () => {
   const [ISBNcode, setISBNcode] = useState("");
   const [enterCodeToggle, setEnterCodeToggl] = useState(false);
-  const [apiResponse, setApiResponse] = useState<Item>();
+  const [item, setItem] = useState<Item>();
+  const [popupFlag, setPopupFlag] = useState<boolean>(false);
+  const [notFindBook, setNotFindBook] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchBookData = async () => {
       console.log(GOOGLE_BOOKS_API_PATH + `?q=isbn:${ISBNcode}`);
-      const fetchBooks = (): Promise<GoogleBooksApiresponse> => {
-        return fetch(
-          GOOGLE_BOOKS_API_PATH + `?q=isbn:${ISBNcode}`,
-        ).then((res) => {
-          return res.json();
-        }).catch((error) => {
-          console.error("エラーが発生しました", error);
-        });
-      };
       const res = await fetchBooks();
-      res.totalItems > 0 && setApiResponse(res.items[0]);
+      if (res.totalItems == 0) {
+        setNotFindBook(true);
+      } else {
+        setItem(res.items[0]);
+        setNotFindBook(false);
+      }
     };
     ISBNcode && fetchBookData();
   }, [enterCodeToggle]);
+
+  const fetchBooks = (): Promise<GoogleBooksApiResponse> => {
+    return fetch(
+      GOOGLE_BOOKS_API_PATH + `?q=isbn:${ISBNcode}`,
+    ).then((res) => {
+      return res.json();
+    }).catch((error) => {
+      console.error("エラーが発生しました", error);
+    });
+  };
+
+  useEffect(() => {
+    item && setPopupFlag(true);
+  }, [item]);
 
   return (
     <>
@@ -32,6 +47,7 @@ const RegisterBook = () => {
           <button
             onClick={() => {
               console.log(ISBNcode);
+              setEnterCodeToggl(!enterCodeToggle);
             }}
             class="ml-2"
           >
@@ -49,11 +65,15 @@ const RegisterBook = () => {
             }}
             class="p-2 w-2/3 border-none text-lg text-left outline-none"
           />
-          {apiResponse && (
-            <img src={apiResponse.volumeInfo.imageLinks.thumbnail} />
-          )}
         </div>
       </div>
+      <ErrorMessage
+        hasError={notFindBook}
+        errorMessage={"本が見つかりませんでした"}
+      />
+      <section className="h-[2000px] w-full">
+        <Popup viewFlag={popupFlag} setViewFlag={setPopupFlag} item={item} />
+      </section>
     </>
   );
 };

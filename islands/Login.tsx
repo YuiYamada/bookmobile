@@ -29,7 +29,7 @@ const Login = () => {
   }, [isInputNameError]);
   return (
     <div class="flex flex-col items-center justify-start my-32">
-      <p class="text-2xl font-bold text-gray-900 ">
+      <p class="text-2xl font-bold text-gray-900">
         Log In Bookmobile
       </p>
       <input

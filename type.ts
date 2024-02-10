@@ -5,7 +5,7 @@ export type Book = {
   owner: string;
 };
 
-export type GoogleBooksApiresponse = {
+export type GoogleBooksApiResponse = {
   totalItems: number;
   items: Item[];
 };

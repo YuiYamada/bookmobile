@@ -11,6 +11,7 @@ import * as $mainPage from "./routes/mainPage.tsx";
 import * as $signUpPage from "./routes/signUpPage.tsx";
 import * as $Login from "./islands/Login.tsx";
 import * as $Main from "./islands/Main.tsx";
+import * as $Popup from "./islands/Popup.tsx";
 import * as $RegisterBook from "./islands/RegisterBook.tsx";
 import * as $SignUp from "./islands/SignUp.tsx";
 import { type Manifest } from "$fresh/server.ts";
@@ -28,6 +29,7 @@ const manifest = {
   islands: {
     "./islands/Login.tsx": $Login,
     "./islands/Main.tsx": $Main,
+    "./islands/Popup.tsx": $Popup,
     "./islands/RegisterBook.tsx": $RegisterBook,
     "./islands/SignUp.tsx": $SignUp,
   },
