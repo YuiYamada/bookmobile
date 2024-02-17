@@ -1,32 +1,28 @@
-import { StateUpdater, useEffect, useState } from "preact/hooks";
+import { StateUpdater, useEffect } from "preact/hooks";
 import Quagga from "quagga";
 
 type Props = {
-  ISBNcode: string;
   setIsScan: StateUpdater<boolean>;
   setISBNcode: StateUpdater<string>;
 };
 const Scan = (props: Props) => {
-  const { setIsScan, ISBNcode, setISBNcode } = props;
+  const { setIsScan, setISBNcode } = props;
   let readSameCodeCount = 0;
   let scanedCode = "";
-  const [back, setBack] = useState(false);
 
   useEffect(() => {
-    Quagga.onDetected((result) => {
+    Quagga.onDetected((result: any) => {
       if (!result) {
         return;
       }
       console.log(scanedCode);
-      console.log(result.codeResult.code);
-      console.log(readSameCodeCount);
 
       if (scanedCode == result.codeResult.code) {
         readSameCodeCount++;
       }
       scanedCode = result.codeResult.code;
 
-      if (scanedCode.startsWith("978") && readSameCodeCount > 6) {
+      if (scanedCode.startsWith("978") && readSameCodeCount > 3) {
         setISBNcode(scanedCode);
         setIsScan(false);
         Quagga.stop();
@@ -55,7 +51,7 @@ const Scan = (props: Props) => {
       src: null,
     };
 
-    Quagga.init(config, function (err) {
+    Quagga.init(config, function (err: any) {
       if (err) {
         console.log(err);
         return;

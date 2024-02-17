@@ -17,7 +17,7 @@ export const handler: Handlers = {
     // };
 
     if (res.value) {
-      await kv.set(["users", name], []);
+      // await kv.set(["users", name], []);
 
       sessionStorage.setItem("name", name);
 

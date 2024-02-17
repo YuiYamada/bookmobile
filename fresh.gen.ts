@@ -3,16 +3,20 @@
 // This file is automatically updated during development when running `dev.ts`.
 
 import * as $_app from "./routes/_app.tsx";
+import * as $api_fetchBooks from "./routes/api/fetchBooks.ts";
 import * as $api_logIn from "./routes/api/logIn.ts";
+import * as $api_registerBook from "./routes/api/registerBook.ts";
 import * as $api_signUp from "./routes/api/signUp.ts";
 import * as $index from "./routes/index.tsx";
 import * as $loginPage from "./routes/loginPage.tsx";
 import * as $mainPage from "./routes/mainPage.tsx";
 import * as $signUpPage from "./routes/signUpPage.tsx";
+import * as $BooksTab from "./islands/BooksTab.tsx";
+import * as $Card from "./islands/Card.tsx";
 import * as $Login from "./islands/Login.tsx";
 import * as $Main from "./islands/Main.tsx";
 import * as $Popup from "./islands/Popup.tsx";
-import * as $RegisterBook from "./islands/RegisterBook.tsx";
+import * as $RegisterBookTab from "./islands/RegisterBookTab.tsx";
 import * as $Scan from "./islands/Scan.tsx";
 import * as $SignUp from "./islands/SignUp.tsx";
 import { type Manifest } from "$fresh/server.ts";
@@ -20,7 +24,9 @@ import { type Manifest } from "$fresh/server.ts";
 const manifest = {
   routes: {
     "./routes/_app.tsx": $_app,
+    "./routes/api/fetchBooks.ts": $api_fetchBooks,
     "./routes/api/logIn.ts": $api_logIn,
+    "./routes/api/registerBook.ts": $api_registerBook,
     "./routes/api/signUp.ts": $api_signUp,
     "./routes/index.tsx": $index,
     "./routes/loginPage.tsx": $loginPage,
@@ -28,10 +34,12 @@ const manifest = {
     "./routes/signUpPage.tsx": $signUpPage,
   },
   islands: {
+    "./islands/BooksTab.tsx": $BooksTab,
+    "./islands/Card.tsx": $Card,
     "./islands/Login.tsx": $Login,
     "./islands/Main.tsx": $Main,
     "./islands/Popup.tsx": $Popup,
-    "./islands/RegisterBook.tsx": $RegisterBook,
+    "./islands/RegisterBookTab.tsx": $RegisterBookTab,
     "./islands/Scan.tsx": $Scan,
     "./islands/SignUp.tsx": $SignUp,
   },

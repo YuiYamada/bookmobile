@@ -3,6 +3,7 @@ export type Book = {
   description: string;
   imageURL: string;
   owner: string;
+  ISBNcode: string;
 };
 
 export type GoogleBooksApiResponse = {
@@ -19,5 +20,11 @@ export type Item = {
     };
     title: string;
     subtitle: string;
+    industryIdentifiers: identify[];
   };
+};
+
+type identify = {
+  type: string;
+  identifier: string;
 };

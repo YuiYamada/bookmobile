@@ -2,11 +2,11 @@ import IconSearch from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/search.ts
 import { GOOGLE_BOOKS_API_PATH } from "../constants.ts";
 import { useEffect, useState } from "preact/hooks";
 import { GoogleBooksApiResponse, Item } from "../type.ts";
-import { Popup } from "./Popup.tsx";
+import Popup from "./Popup.tsx";
 import ErrorMessage from "../components/ErrorMessage.tsx";
 import Scan from "./Scan.tsx";
 
-const RegisterBook = () => {
+const RegisterBookTab = () => {
   const [ISBNcode, setISBNcode] = useState("");
   const [enterCodeToggle, setEnterCodeToggl] = useState(false);
   const [item, setItem] = useState<Item>();
@@ -49,7 +49,6 @@ const RegisterBook = () => {
       {isScan
         ? (
           <Scan
-            ISBNcode={ISBNcode}
             setIsScan={setIsScan}
             setISBNcode={setISBNcode}
           />
@@ -98,7 +97,7 @@ const RegisterBook = () => {
               hasError={notFindBook}
               errorMessage={"本が見つかりませんでした"}
             />
-            <section className="h-full w-full">
+            <section class="h-full w-full">
               <Popup
                 viewFlag={popupFlag}
                 setViewFlag={setPopupFlag}
@@ -110,4 +109,4 @@ const RegisterBook = () => {
     </>
   );
 };
-export default RegisterBook;
+export default RegisterBookTab;
