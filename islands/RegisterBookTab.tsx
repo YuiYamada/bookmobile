@@ -1,15 +1,15 @@
 import IconSearch from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/search.tsx";
 import { GOOGLE_BOOKS_API_PATH } from "../constants.ts";
 import { useEffect, useState } from "preact/hooks";
-import { GoogleBooksApiResponse, Item } from "../type.ts";
-import Popup from "./Popup.tsx";
+import { Book, GoogleBooksApiResponse } from "../type.ts";
+import RegisterPopup from "./RegisterPopup.tsx";
 import ErrorMessage from "../components/ErrorMessage.tsx";
 import Scan from "./Scan.tsx";
 
 const RegisterBookTab = () => {
   const [ISBNcode, setISBNcode] = useState("");
   const [enterCodeToggle, setEnterCodeToggl] = useState(false);
-  const [item, setItem] = useState<Item>();
+  const [book, setBook] = useState<Book>();
   const [popupFlag, setPopupFlag] = useState<boolean>(false);
   const [notFindBook, setNotFindBook] = useState<boolean>(false);
   const [isScan, setIsScan] = useState<boolean>(false);
@@ -23,7 +23,15 @@ const RegisterBookTab = () => {
       if (res.totalItems == 0) {
         setNotFindBook(true);
       } else {
-        setItem(res.items[0]);
+        const item = res.items[0].volumeInfo;
+        const book: Book = {
+          title: item.title,
+          description: item?.description,
+          imageURL: item?.imageLinks?.thumbnail,
+          owner: "",
+          ISBNcode: item.industryIdentifiers[1].identifier,
+        };
+        setBook(book);
         setNotFindBook(false);
       }
     };
@@ -41,11 +49,11 @@ const RegisterBookTab = () => {
   };
 
   useEffect(() => {
-    item && setPopupFlag(true);
-  }, [item]);
+    book && setPopupFlag(true);
+  }, [book]);
 
   return (
-    <>
+    <div class="h-screen">
       {isScan
         ? (
           <Scan
@@ -97,16 +105,16 @@ const RegisterBookTab = () => {
               hasError={notFindBook}
               errorMessage={"本が見つかりませんでした"}
             />
-            <section class="h-full w-full">
-              <Popup
+            <section class="w-full">
+              <RegisterPopup
                 viewFlag={popupFlag}
                 setViewFlag={setPopupFlag}
-                item={item}
+                book={book}
               />
             </section>
           </>
         )}
-    </>
+    </div>
   );
 };
 export default RegisterBookTab;

@@ -4,21 +4,30 @@ import { JSXInternal } from "preact/src/jsx.d.ts";
 import IconX from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/x.tsx";
 import IconPhoto from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/photo.tsx";
 import IconThumbUp from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/thumb-up.tsx";
-import { Item } from "../type.ts";
+import { Book } from "../type.ts";
+import { getCookie } from "../util/func.tsx";
 
 type Props = {
   viewFlag: boolean;
   setViewFlag: StateUpdater<boolean>;
-  item: Item | undefined;
+  book: Book | undefined;
 };
-const Popup = (props: Props) => {
-  const { viewFlag, setViewFlag, item } = props;
-  const [register, setRegister] = useState(false);
-  const [registerBookFlag, setRegisterBookFlag] = useState(false);
+const BookPopup = (props: Props) => {
+  const { viewFlag, setViewFlag, book } = props;
+  const [borrow, setBorrow] = useState(false);
+  const [popupFlag, setPopupFlag] = useState(false);
+
+  const userName = getCookie("name");
+
+  const isOwn = "" != book?.owner;
+
   // 枠外クリック用関数
-  const closePopup = () => {
+  const closePopup = (
+    e: JSXInternal.TargetedMouseEvent<HTMLButtonElement | HTMLDivElement>,
+  ) => {
     setViewFlag(false);
-    setRegisterBookFlag(false);
+    setPopupFlag(false);
+    e.stopPropagation();
   };
   // 枠内クリック
   const preventClose = (
@@ -28,21 +37,23 @@ const Popup = (props: Props) => {
   };
 
   useEffect(() => {
-    const registerBook = () => {
+    const borrowBook = () => {
       const method = "POST";
-      const body = JSON.stringify(item);
+
+      const body = JSON.stringify(book);
+
       const headers = {
         "Accept": "application/json",
         "Content-Type": "application/json",
       };
-      fetch("/api/registerBook", {
+      fetch(`/api/borrowBook?user=${userName}`, {
         method,
         body,
         headers,
-      }).then(() => setRegisterBookFlag(true));
+      }).then(() => setPopupFlag(true));
     };
-    register && registerBook();
-  }, [register]);
+    borrow && borrowBook();
+  }, [borrow]);
 
   return (
     <>
@@ -61,7 +72,7 @@ const Popup = (props: Props) => {
             <button onClick={closePopup} class="m-2 w-8 h-8">
               <IconX class="w-8 h-8" />
             </button>
-            {registerBookFlag
+            {popupFlag
               ? (
                 <div class="mt-8">
                   <div class="flex justify-center">
@@ -69,20 +80,20 @@ const Popup = (props: Props) => {
                   </div>
                   <div class="flex justify-center">
                     <p class="text-xl font-bold text-gray-900">
-                      Register completed！
+                      Rental completed！
                     </p>
                   </div>
                 </div>
               )
               : (
                 <>
-                  <div class="flex">
-                    <div class="ml-4 mt-4 w-1/2">
-                      {item?.volumeInfo?.imageLinks?.thumbnail
+                  <div class="flex f-full">
+                    <div class="ml-4 mt-4 h-full">
+                      {book?.imageURL
                         ? (
                           <img
                             class="object-contain w-full h-full"
-                            src={item.volumeInfo.imageLinks.thumbnail}
+                            src={book?.imageURL}
                           />
                         )
                         : (
@@ -96,26 +107,26 @@ const Popup = (props: Props) => {
                     </div>
                     <div class="w-1/2">
                       <p class="h-1/4 ml-2 mr-4 text-xl font-bold text-gray-900">
-                        {item && item.volumeInfo.title.substring(0, 13)}
+                        {book && book.title.substring(0, 13)}
                       </p>
                       <p class="ml-2 mr-4 text-sm font-light text-gray-900">
-                        {item?.volumeInfo?.description &&
-                          `${
-                            item.volumeInfo.description.substring(0, 100)
-                          }・・・`}
+                        {book?.description &&
+                          `${book.description.substring(0, 100)}・・・`}
                       </p>
                     </div>
                   </div>
-                  <div class="flex flex-col items-center">
+                  <div class="flex flex-col items-center mb-2">
                     <button
+                      disabled={isOwn}
                       onClick={() => {
-                        console.log("reggisterd");
-                        setRegister(true);
+                        console.log("borrow");
+                        setBorrow(true);
                       }}
-                      class="flex justify-center items-center bg-white rounded-full w-2/3 h-16 mt-6 border-2 border-gray-300
-							text-xl font-bold text-gray-900"
+                      class={"flex justify-center items-center absolute bottom-0 bg-white rounded-full w-2/3 h-16 mb-6" +
+                        " border-2 border-gray-300 text-xl font-bold text-gray-900 " +
+                        (" disabled:bg-gray-100")}
                     >
-                      Register
+                      Borrow
                     </button>
                   </div>
                 </>
@@ -127,4 +138,4 @@ const Popup = (props: Props) => {
   );
 };
 
-export default Popup;
+export default BookPopup;

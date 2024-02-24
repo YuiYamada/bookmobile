@@ -15,6 +15,7 @@ const SignUp = () => {
         console.log(res);
         console.log(res.url);
         if (res.redirected) {
+          document.cookie = `name=${name}`;
           window.location.href = res.url;
         } else {
           setIsInputNameError(true);
