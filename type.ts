@@ -6,6 +6,10 @@ export type Book = {
   ISBNcode: string;
 };
 
+export type OwnBooks = {
+  books: string[];
+};
+
 export type GoogleBooksApiResponse = {
   totalItems: number;
   items: Item[];

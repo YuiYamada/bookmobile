@@ -1,4 +1,5 @@
 import { Handlers } from "$fresh/server.ts";
+import { OwnBooks } from "../../type.ts";
 export const handler: Handlers = {
   async GET(req) {
     const urlSearchParams = new URLSearchParams(new URL(req.url).search);
@@ -22,7 +23,8 @@ export const handler: Handlers = {
         status: 200,
       });
     } else {
-      await kv.set(["users", name], []);
+      const ownBooks: OwnBooks = { books: [] };
+      await kv.set(["users", name], ownBooks);
 
       sessionStorage.setItem("name", name);
 
