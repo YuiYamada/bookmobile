@@ -14,7 +14,9 @@ const Card = (props: { book: Book }) => {
         onClick={() => setPopupFlag(true)}
         class="m-2 rounded-md border-2 border-gray-300"
       >
-        {book.owner && <p>{book.owner}がレンタル中</p>}
+        <div class="flex justify-center">
+          {book.owner && <p>{book.owner}がレンタル中</p>}
+        </div>
         <div class="flex justify-center">
           {book.imageURL
             ? (
